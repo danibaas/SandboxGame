@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour {
     // components
     public Rigidbody rigidBody;
+    public Transform camera;
 
     // misc variables
     bool grounded;
@@ -17,6 +18,7 @@ public class PlayerMovement : MonoBehaviour {
     const float MaxSlopeAngle = 35f;
     const float MaxSpeed = 20f;
     const float MaxSprintingSpeed = 30f;
+    const float MovementSpeed = 1000f;
     
 
     void Start() {
@@ -35,7 +37,10 @@ public class PlayerMovement : MonoBehaviour {
     void Movement() {
         rigidBody.AddForce(Vector3.down * DownForce * Time.deltaTime); // keep player on the ground.
 
-        
+        Vector3 forward = camera.transform.forward;
+        Vector3 right = camera.transform.right;
+        rigidBody.AddForce(forward * PlayerInput.verticalMovement * MovementSpeed * Time.deltaTime * PlayerInput.movementMultiplier);
+        rigidBody.AddForce(right * PlayerInput.horizontalMovement * MovementSpeed * Time.deltaTime * PlayerInput.movementMultiplier);
     }
 
     private void OnCollisionStay(Collision collision) {
