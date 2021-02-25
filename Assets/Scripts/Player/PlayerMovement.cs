@@ -8,18 +8,17 @@ public class PlayerMovement : MonoBehaviour {
     public Transform camera;
 
     // misc variables
-    bool grounded;
     bool cancellingGrounded;
+    bool grounded;
     public LayerMask groundLayer; // layer which represents the ground
 
     // constants
-    const float DownForce = 10f;
     const float CancelGroundedDelay = 3f;
+    const float DownForce = 10f;
     const float MaxSlopeAngle = 35f;
     const float MaxSpeed = 20f;
     const float MaxSprintingSpeed = 30f;
-    const float MovementSpeed = 1000f;
-    
+    const float MovementSpeed = 3000f;
 
     void Start() {
 
@@ -36,6 +35,8 @@ public class PlayerMovement : MonoBehaviour {
 
     void Movement() {
         rigidBody.AddForce(Vector3.down * DownForce * Time.deltaTime); // keep player on the ground.
+
+        PlayerJump.HandleJumping(rigidBody);
 
         Vector3 forward = camera.transform.forward;
         Vector3 right = camera.transform.right;
@@ -63,4 +64,6 @@ public class PlayerMovement : MonoBehaviour {
     void StopGrounded() {
         grounded = false;
     }
+
+
 }
